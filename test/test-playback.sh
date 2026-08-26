@@ -44,7 +44,7 @@ echo "" >> "$RESULTS"
 
 echo "=== Step 2: Test @strudel/webaudio with polyfill ===" | tee -a "$RESULTS"
 node --input-type=module -e "
-import 'node-web-audio-api/polyfill.js';
+import './src/polyfill.mjs';
 import { getAudioContext } from '@strudel/webaudio';
 console.log('imported getAudioContext:', typeof getAudioContext);
 const ctx = getAudioContext();
@@ -65,7 +65,7 @@ echo "" >> "$RESULTS"
 echo "=== Step 3: Test a simple Strudel pattern ===" | tee -a "$RESULTS"
 echo "You should hear a 3-second arpeggio..." | tee -a "$RESULTS"
 node --input-type=module -e "
-import 'node-web-audio-api/polyfill.js';
+import './src/polyfill.mjs';
 import { repl, note } from '@strudel/core';
 import { getAudioContext, webaudioOutput } from '@strudel/webaudio';
 const ctx = getAudioContext();
@@ -87,7 +87,7 @@ echo "=== Step 4: Test the coastline song (samples + tonal) ===" | tee -a "$RESU
 echo "You should hear the beginning of coastline by eddyflux..." | tee -a "$RESULTS"
 echo "(This fetches samples from GitHub — may take a few seconds to start)" | tee -a "$RESULTS"
 timeout 30 node --input-type=module -e "
-import 'node-web-audio-api/polyfill.js';
+import './src/polyfill.mjs';
 import { readFileSync } from 'node:fs';
 import { repl, note, s, n, stack, silence, setcps, sine, rand, perlin, rev, fast, slow, struct, mask, gain, room, shape, delay, lpf, lpq, hpf, cutoff, pan, clip, segment, add, sub, late, early, size, dec, decay, sustain, release, attack, phaser, fm, speed, begin, end, legato, octave, up, down, off, superimpose, degradeBy, degrade, range, reify, pure, cat, seq, fastcat, timeCat, slowcat, rarely, sometimes, always, never, chunk, ply, jux, bank, footed, chord, mode, anchor, dict, set, offset } from '@strudel/core';
 import { getAudioContext, webaudioOutput, samples, registerSynthSounds } from '@strudel/webaudio';

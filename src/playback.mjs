@@ -1,4 +1,4 @@
-import 'node-web-audio-api/polyfill.js';
+import './polyfill.mjs';
 import { repl, transpiler } from '@strudel/core';
 import { getAudioContext, webaudioOutput, samples as loadSamples, registerSynthSounds } from '@strudel/webaudio';
 import { registerVoicings } from '@strudel/tonal';
