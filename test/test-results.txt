@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:38:24Z
+Date: 2026-08-26T01:40:59Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -31,15 +31,21 @@ Step 3: PASS
 You should hear the beginning of coastline by eddyflux...
 (This fetches samples from GitHub — may take a few seconds to start)
 🌀 @strudel/core loaded 🌀
-Loading samples from github:eddyflux/crate ...
-Samples loaded. Evaluating pattern...
-<anonymous_script>:7
-setcps(.75)
-^
+Evaluating coastline.js (includes sample loading)...
+[eval] error: "<[0 1] 1 1 1>/16".early is not a function
+TypeError: "<[0 1] 1 1 1>/16".early is not a function
+    at eval (eval at Bn (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:549:10), <anonymous>:18:28)
+    at eval (eval at Bn (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:549:10), <anonymous>:36:3)
+    at Bn (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:549:21)
+    at On (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:557:47)
+    at evaluate (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3311:44)
+    at async file:///home/jre/code/omarchy-strudel/[eval1]:21:17
+Playing! Will stop after 10 seconds...
+file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3030
+      throw new Error("Scheduler: no pattern set! call .setPattern first.");
+            ^
 
-ReferenceError: setcps is not defined
-    at eval (eval at <anonymous> (file:///home/jre/code/omarchy-strudel/[eval1]:19:23), <anonymous>:7:1)
-    at file:///home/jre/code/omarchy-strudel/[eval1]:19:23
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+Error: Scheduler: no pattern set! call .setPattern first.
+    at hf.start (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3030:13)
 
 Node.js v25.0.0
