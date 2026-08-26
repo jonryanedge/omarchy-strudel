@@ -3,17 +3,18 @@ import * as core from '@strudel/core';
 import * as webaudio from '@strudel/webaudio';
 import * as tonal from '@strudel/tonal';
 import { transpiler } from '@strudel/transpiler';
-import { miniAllStrings } from '@strudel/mini';
+import * as mini from '@strudel/mini';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-miniAllStrings();
+mini.miniAllStrings();
 Object.assign(globalThis, core);
 Object.assign(globalThis, webaudio);
 Object.assign(globalThis, tonal);
+Object.assign(globalThis, mini);
 
 let scheduler = null;
 let evaluate = null;
