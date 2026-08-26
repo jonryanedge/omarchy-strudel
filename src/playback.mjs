@@ -13,6 +13,7 @@ Object.assign(globalThis, webaudio);
 Object.assign(globalThis, tonal);
 
 let scheduler = null;
+let evaluate = null;
 let audioCtx = null;
 let initialized = false;
 let masterGain = null;
@@ -32,8 +33,10 @@ async function init() {
   const replInstance = core.repl({
     defaultOutput: webaudio.webaudioOutput,
     getTime: () => audioCtx.currentTime,
+    transpiler: (code) => ({ output: code }),
   });
   scheduler = replInstance.scheduler;
+  evaluate = replInstance.evaluate;
 
   masterGain = audioCtx.createGain();
   masterGain.gain.value = volume;
@@ -44,12 +47,9 @@ async function init() {
 export async function play(code) {
   await init();
 
-  const pattern = await eval(code);
+  const pattern = await evaluate(code);
 
-  if (scheduler) {
-    scheduler.setPattern(pattern);
-    scheduler.start();
-  }
+  scheduler.start();
 
   return pattern;
 }
@@ -62,7 +62,7 @@ export function stop() {
 
 export function pause() {
   if (scheduler) {
-    scheduler.stop();
+    scheduler.pause();
   }
 }
 

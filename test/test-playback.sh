@@ -99,13 +99,14 @@ webaudio.registerSynthSounds();
 tonal.registerVoicings();
 const ctx = webaudio.getAudioContext();
 await ctx.resume();
-const { scheduler } = core.repl({ defaultOutput: webaudio.webaudioOutput, getTime: () => ctx.currentTime });
+const { scheduler, evaluate } = core.repl({
+  defaultOutput: webaudio.webaudioOutput,
+  getTime: () => ctx.currentTime,
+  transpiler: (code) => ({ output: code }),
+});
 const code = readFileSync('songs/coastline.js', 'utf-8');
-console.log('Loading samples from github:eddyflux/crate ...');
-await webaudio.samples('github:eddyflux/crate');
-console.log('Samples loaded. Evaluating pattern...');
-const pattern = await eval(code);
-scheduler.setPattern(pattern);
+console.log('Evaluating coastline.js (includes sample loading)...');
+const pattern = await evaluate(code);
 scheduler.start();
 console.log('Playing! Will stop after 10 seconds...');
 setTimeout(() => { scheduler.stop(); console.log('Step 4: PASS'); process.exit(0); }, 10000);
