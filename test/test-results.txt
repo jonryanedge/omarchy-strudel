@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:36:40Z
+Date: 2026-08-26T01:38:24Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -30,14 +30,16 @@ Step 3: PASS
 === Step 4: Test the coastline song (samples + tonal) ===
 You should hear the beginning of coastline by eddyflux...
 (This fetches samples from GitHub — may take a few seconds to start)
-file:///home/jre/code/omarchy-strudel/[eval1]:4
-import { repl, note, s, n, stack, silence, setcps, sine, rand, perlin, rev, fast, slow, struct, mask, gain, room, shape, delay, lpf, lpq, hpf, cutoff, pan, clip, segment, add, sub, late, early, size, dec, decay, sustain, release, attack, phaser, fm, speed, begin, end, legato, octave, up, down, off, superimpose, degradeBy, degrade, range, reify, pure, cat, seq, fastcat, timeCat, slowcat, rarely, sometimes, always, never, chunk, ply, jux, bank, footed, chord, mode, anchor, dict, set, offset } from '@strudel/core';
-                                                                                                                                                                                                                                                                                                 ^^^^
-SyntaxError: The requested module '@strudel/core' does not provide an export named 'down'
-    at #_instantiate (node:internal/modules/esm/module_job:254:21)
-    at async ModuleJob.run (node:internal/modules/esm/module_job:369:5)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:278:26)
-    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:275:20)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+🌀 @strudel/core loaded 🌀
+Loading samples from github:eddyflux/crate ...
+Samples loaded. Evaluating pattern...
+<anonymous_script>:7
+setcps(.75)
+^
+
+ReferenceError: setcps is not defined
+    at eval (eval at <anonymous> (file:///home/jre/code/omarchy-strudel/[eval1]:19:23), <anonymous>:7:1)
+    at file:///home/jre/code/omarchy-strudel/[eval1]:19:23
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
 
 Node.js v25.0.0
