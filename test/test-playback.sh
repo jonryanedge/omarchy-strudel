@@ -117,7 +117,7 @@ const { scheduler, evaluate } = core.repl({
   transpiler,
 });
 const code = readFileSync('songs/coastline.js', 'utf-8');
-const sampleMatch = code.match(/samples\s*\(\s*['\"\`键盘]([^'\"\`]+)['\"\`]\s*\)/);
+const sampleMatch = code.match(/samples\s*\(\s*['\"\`]([^'\"\`]+)['\"\`]\s*\)/);
 if (sampleMatch) {
   console.log('Preloading samples from ' + sampleMatch[1] + ' ...');
   await webaudio.samples(sampleMatch[1]);

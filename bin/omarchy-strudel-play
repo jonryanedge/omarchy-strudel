@@ -31,6 +31,7 @@ if [[ -z "$SONG" ]]; then
   exit 0
 fi
 
+# Resolve song path
 if [[ -f "$SONG" ]]; then
   SONG_PATH="$SONG"
 elif [[ -f "${LIB_DIR}/songs/${SONG}.js" ]]; then
@@ -46,39 +47,14 @@ else
   exit 1
 fi
 
-DURATION_ARG=""
-if [[ -n "$DURATION" ]]; then
-  DURATION_ARG="const DURATION = ${DURATION};"
+# Find the play.mjs helper
+if [[ -f "${LIB_DIR}/bin/play.mjs" ]]; then
+  PLAY_SCRIPT="${LIB_DIR}/bin/play.mjs"
+elif [[ -f "${SCRIPT_DIR}/play.mjs" ]]; then
+  PLAY_SCRIPT="${SCRIPT_DIR}/play.mjs"
+else
+  echo "error: play.mjs not found" >&2
+  exit 1
 fi
 
-exec "$NODE_BIN" --input-type=module -e "
-import '${LIB_DIR}/src/playback.mjs' assert { 'resolution-mode': 'import' };
-" 2>/dev/null || true
-
-exec "$NODE_BIN" --input-type=module -e "
-import { play, stop, loadSongFile } from '${LIB_DIR}/src/playback.mjs';
-import { readFileSync } from 'node:fs';
-
-const songPath = '${SONG_PATH}';
-const code = readFileSync(songPath, 'utf-8');
-
-console.log('Playing: ' + songPath);
-console.log('Press Ctrl+C to stop...');
-
-await play(code);
-
-process.on('SIGINT', () => {
-  stop();
-  console.log('\\nStopped.');
-  process.exit(0);
-});
-
-${DURATION_ARG}
-if (typeof DURATION !== 'undefined') {
-  setTimeout(() => {
-    stop();
-    console.log('\\nFinished after ' + DURATION + ' seconds.');
-    process.exit(0);
-  }, DURATION * 1000);
-}
-"
+exec "$NODE_BIN" "$PLAY_SCRIPT" "$SONG_PATH" "$DURATION"
