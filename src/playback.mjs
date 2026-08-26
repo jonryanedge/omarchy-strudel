@@ -37,9 +37,9 @@ async function init() {
   tonal.registerVoicings();
 
   try {
-    await webaudio.loadWorklets();
+    await webaudio.initAudio({ disableWorklets: true });
   } catch (e) {
-    console.warn('[omarchy-strudel] Could not load AudioWorklets:', e.message);
+    console.warn('[omarchy-strudel] initAudio failed:', e.message);
   }
 
   const replInstance = core.repl({

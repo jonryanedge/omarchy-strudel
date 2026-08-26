@@ -1,4 +1,4 @@
-import './polyfill.mjs';
+import '../src/polyfill.mjs';
 import { readFileSync } from 'node:fs';
 import * as core from '@strudel/core';
 import * as webaudio from '@strudel/webaudio';
@@ -19,7 +19,7 @@ tonal.registerVoicings();
 const ctx = webaudio.getAudioContext();
 await ctx.resume();
 
-try { await webaudio.loadWorklets(); } catch(e) { console.warn('Worklets failed:', e.message); }
+try { await webaudio.initAudio({ disableWorklets: true }); } catch(e) { console.warn('initAudio failed:', e.message); }
 
 const { scheduler, evaluate } = core.repl({
   defaultOutput: webaudio.webaudioOutput,
