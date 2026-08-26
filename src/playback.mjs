@@ -2,12 +2,15 @@ import './polyfill.mjs';
 import * as core from '@strudel/core';
 import * as webaudio from '@strudel/webaudio';
 import * as tonal from '@strudel/tonal';
+import { transpiler } from '@strudel/transpiler';
+import { miniAllStrings } from '@strudel/mini';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+miniAllStrings();
 Object.assign(globalThis, core);
 Object.assign(globalThis, webaudio);
 Object.assign(globalThis, tonal);
@@ -33,7 +36,7 @@ async function init() {
   const replInstance = core.repl({
     defaultOutput: webaudio.webaudioOutput,
     getTime: () => audioCtx.currentTime,
-    transpiler: (code) => ({ output: code }),
+    transpiler,
   });
   scheduler = replInstance.scheduler;
   evaluate = replInstance.evaluate;

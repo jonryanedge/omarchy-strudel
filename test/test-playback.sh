@@ -92,6 +92,9 @@ import { readFileSync } from 'node:fs';
 import * as core from '@strudel/core';
 import * as webaudio from '@strudel/webaudio';
 import * as tonal from '@strudel/tonal';
+import { transpiler } from '@strudel/transpiler';
+import { miniAllStrings } from '@strudel/mini';
+miniAllStrings();
 Object.assign(globalThis, core);
 Object.assign(globalThis, webaudio);
 Object.assign(globalThis, tonal);
@@ -102,7 +105,7 @@ await ctx.resume();
 const { scheduler, evaluate } = core.repl({
   defaultOutput: webaudio.webaudioOutput,
   getTime: () => ctx.currentTime,
-  transpiler: (code) => ({ output: code }),
+  transpiler,
 });
 const code = readFileSync('songs/coastline.js', 'utf-8');
 console.log('Evaluating coastline.js (includes sample loading)...');
