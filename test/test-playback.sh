@@ -110,13 +110,20 @@ registerSoundfonts();
 tonal.registerVoicings();
 const ctx = webaudio.getAudioContext();
 await ctx.resume();
+try { await webaudio.loadWorklets(); } catch(e) { console.warn('Worklets failed:', e.message); }
 const { scheduler, evaluate } = core.repl({
   defaultOutput: webaudio.webaudioOutput,
   getTime: () => ctx.currentTime,
   transpiler,
 });
 const code = readFileSync('songs/coastline.js', 'utf-8');
-console.log('Evaluating coastline.js (includes sample loading)...');
+const sampleMatch = code.match(/samples\s*\(\s*['\"\`键盘]([^'\"\`]+)['\"\`]\s*\)/);
+if (sampleMatch) {
+  console.log('Preloading samples from ' + sampleMatch[1] + ' ...');
+  await webaudio.samples(sampleMatch[1]);
+  console.log('Samples loaded.');
+}
+console.log('Evaluating coastline.js...');
 const pattern = await evaluate(code);
 scheduler.start();
 console.log('Playing! Will stop after 10 seconds...');

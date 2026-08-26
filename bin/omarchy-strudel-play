@@ -1,0 +1,84 @@
+#!/bin/bash
+# omarchy-strudel-play — Play a Strudel song directly (no daemon needed)
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="/usr/lib/omarchy-strudel"
+NODE_BIN="$(command -v node || true)"
+
+if [[ -z "$NODE_BIN" ]]; then
+  echo "error: node is not installed" >&2
+  exit 1
+fi
+
+SONG="${1:-}"
+DURATION="${2:-}"
+
+if [[ -z "$SONG" ]]; then
+  echo "Usage: omarchy-strudel-play <song.js|song-name> [duration_seconds]"
+  echo ""
+  echo "Examples:"
+  echo "  omarchy-strudel-play coastline.js"
+  echo "  omarchy-strudel-play coastline 30"
+  echo "  omarchy-strudel-play ~/my-song.js 10"
+  echo ""
+  echo "Available built-in songs:"
+  if [[ -d "${LIB_DIR}/songs" ]]; then
+    ls "${LIB_DIR}/songs/"*.js 2>/dev/null | xargs -I{} basename {} | sed 's/^/  /'
+  elif [[ -d "${SCRIPT_DIR}/../songs" ]]; then
+    ls "${SCRIPT_DIR}/../songs/"*.js 2>/dev/null | xargs -I{} basename {} | sed 's/^/  /'
+  fi
+  exit 0
+fi
+
+if [[ -f "$SONG" ]]; then
+  SONG_PATH="$SONG"
+elif [[ -f "${LIB_DIR}/songs/${SONG}.js" ]]; then
+  SONG_PATH="${LIB_DIR}/songs/${SONG}.js"
+elif [[ -f "${LIB_DIR}/songs/${SONG}" ]]; then
+  SONG_PATH="${LIB_DIR}/songs/${SONG}"
+elif [[ -f "${SCRIPT_DIR}/../songs/${SONG}.js" ]]; then
+  SONG_PATH="$(cd "${SCRIPT_DIR}/.." && pwd)/songs/${SONG}.js"
+elif [[ -f "${SCRIPT_DIR}/../songs/${SONG}" ]]; then
+  SONG_PATH="$(cd "${SCRIPT_DIR}/.." && pwd)/songs/${SONG}"
+else
+  echo "error: song not found: $SONG" >&2
+  exit 1
+fi
+
+DURATION_ARG=""
+if [[ -n "$DURATION" ]]; then
+  DURATION_ARG="const DURATION = ${DURATION};"
+fi
+
+exec "$NODE_BIN" --input-type=module -e "
+import '${LIB_DIR}/src/playback.mjs' assert { 'resolution-mode': 'import' };
+" 2>/dev/null || true
+
+exec "$NODE_BIN" --input-type=module -e "
+import { play, stop, loadSongFile } from '${LIB_DIR}/src/playback.mjs';
+import { readFileSync } from 'node:fs';
+
+const songPath = '${SONG_PATH}';
+const code = readFileSync(songPath, 'utf-8');
+
+console.log('Playing: ' + songPath);
+console.log('Press Ctrl+C to stop...');
+
+await play(code);
+
+process.on('SIGINT', () => {
+  stop();
+  console.log('\\nStopped.');
+  process.exit(0);
+});
+
+${DURATION_ARG}
+if (typeof DURATION !== 'undefined') {
+  setTimeout(() => {
+    stop();
+    console.log('\\nFinished after ' + DURATION + ' seconds.');
+    process.exit(0);
+  }, DURATION * 1000);
+}
+"

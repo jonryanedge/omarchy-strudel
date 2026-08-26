@@ -36,6 +36,12 @@ async function init() {
   registerSoundfonts();
   tonal.registerVoicings();
 
+  try {
+    await webaudio.loadWorklets();
+  } catch (e) {
+    console.warn('[omarchy-strudel] Could not load AudioWorklets:', e.message);
+  }
+
   const replInstance = core.repl({
     defaultOutput: webaudio.webaudioOutput,
     getTime: () => audioCtx.currentTime,
@@ -50,8 +56,26 @@ async function init() {
   initialized = true;
 }
 
+async function preloadSamples(code) {
+  const sampleCalls = code.match(/samples\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g);
+  if (!sampleCalls) return;
+
+  for (const call of sampleCalls) {
+    const urlMatch = call.match(/samples\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/);
+    if (urlMatch) {
+      const url = urlMatch[1];
+      try {
+        await webaudio.samples(url);
+      } catch (e) {
+        console.warn(`[omarchy-strudel] Could not preload samples from ${url}:`, e.message);
+      }
+    }
+  }
+}
+
 export async function play(code) {
   await init();
+  await preloadSamples(code);
 
   const pattern = await evaluate(code);
 
