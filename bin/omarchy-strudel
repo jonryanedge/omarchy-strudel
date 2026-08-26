@@ -1,0 +1,132 @@
+#!/bin/bash
+# omarchy-strudel — CLI control for the Strudel background music daemon
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="/usr/lib/omarchy-strudel"
+NODE_BIN="$(command -v node || true)"
+
+if [[ -z "$NODE_BIN" ]]; then
+  echo "error: node is not installed" >&2
+  exit 1
+fi
+
+usage() {
+  cat <<EOF
+omarchy-strudel — control background Strudel music
+
+Usage: omarchy-strudel <command> [args]
+
+Commands:
+  status              Show current playback status
+  play                Start playing the current song
+  pause               Pause playback
+  stop                Stop playback
+  next                Switch to the next song
+  prev                Switch to the previous song
+  switch <song>       Switch to a specific song by name
+  list                List available songs
+  load <file>         Load and play a .js Strudel file
+  enable              Enable playback (allows autoplay)
+  disable             Disable playback and stop current song
+  volume <0-1>        Set volume (0.0 to 1.0)
+  menu                Open the interactive menu
+  daemon              Start the daemon (called by systemd)
+  restart             Restart the daemon service
+  log                 Show recent daemon logs
+
+Examples:
+  omarchy-strudel status
+  omarchy-strudel switch coastline.js
+  omarchy-strudel volume 0.5
+  omarchy-strudel load ~/my-song.js
+EOF
+}
+
+send_cmd() {
+  local json="$1"
+  "$NODE_BIN" --input-type=module -e "
+    import { sendCommand } from '${LIB_DIR}/src/ipc.mjs';
+    try {
+      const resp = await sendCommand($json);
+      console.log(JSON.stringify(resp, null, 2));
+      process.exit(resp.ok ? 0 : 1);
+    } catch(e) {
+      console.error('error: ' + e.message);
+      process.exit(1);
+    }
+  "
+}
+
+cmd="${1:-}"
+[[ $# -gt 0 ]] && shift
+
+case "$cmd" in
+  status)
+    send_cmd '{"cmd":"status"}'
+    ;;
+  play)
+    send_cmd '{"cmd":"play"}'
+    ;;
+  pause)
+    send_cmd '{"cmd":"pause"}'
+    ;;
+  stop)
+    send_cmd '{"cmd":"stop"}'
+    ;;
+  next)
+    send_cmd '{"cmd":"next"}'
+    ;;
+  prev)
+    send_cmd '{"cmd":"prev"}'
+    ;;
+  switch)
+    [[ $# -ge 1 ]] || { echo "usage: omarchy-strudel switch <song>" >&2; exit 1; }
+    send_cmd "{\"cmd\":\"switch\",\"song\":\"$1\"}"
+    ;;
+  list)
+    send_cmd '{"cmd":"list"}'
+    ;;
+  load)
+    [[ $# -ge 1 ]] || { echo "usage: omarchy-strudel load <file>" >&2; exit 1; }
+    local filepath
+    filepath="$(readlink -f "$1" 2>/dev/null || echo "$1")"
+    send_cmd "{\"cmd\":\"load_file\",\"path\":\"$filepath\"}"
+    ;;
+  enable)
+    send_cmd '{"cmd":"enable"}'
+    ;;
+  disable)
+    send_cmd '{"cmd":"disable"}'
+    ;;
+  volume)
+    [[ $# -ge 1 ]] || { echo "usage: omarchy-strudel volume <0-1>" >&2; exit 1; }
+    send_cmd "{\"cmd\":\"volume\",\"level\":$1}"
+    ;;
+  menu)
+    exec "$SCRIPT_DIR/omarchy-strudel-menu"
+    ;;
+  daemon)
+    exec "$NODE_BIN" "${LIB_DIR}/src/daemon.mjs"
+    ;;
+  restart)
+    systemctl --user restart omarchy-strudel.service 2>/dev/null || true
+    echo "Daemon restarted"
+    ;;
+  log)
+    local logfile="${HOME}/.local/state/omarchy-strudel/daemon.log"
+    if [[ -f "$logfile" ]]; then
+      tail -n 50 "$logfile"
+    else
+      echo "No log file found"
+    fi
+    ;;
+  ""|-h|--help|help)
+    usage
+    ;;
+  *)
+    echo "Unknown command: $cmd" >&2
+    usage
+    exit 1
+    ;;
+esac

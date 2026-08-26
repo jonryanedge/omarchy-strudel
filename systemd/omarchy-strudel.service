@@ -1,0 +1,15 @@
+[Unit]
+Description=Omarchy Strudel background music daemon
+After=pipewire.service pipewire-pulse.service wireplumber.service
+Wants=pipewire.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/omarchy-strudel-daemon
+Restart=on-failure
+RestartSec=5
+Environment=HOME=%h
+Environment=XDG_RUNTIME_DIR=%t
+
+[Install]
+WantedBy=default.target

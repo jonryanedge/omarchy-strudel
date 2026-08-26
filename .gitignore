@@ -1,0 +1,39 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.pnpm-store/
+
+# Build artifacts
+build-output/
+*.pkg.tar.zst
+*.pkg.tar.xz
+*.tar.gz
+src/*.tar.gz
+
+# OS files
+.DS_Store
+Thumbs.db
+.directory
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# Local runtime state (should never be committed)
+*.sock
+state.json
+
+# Local Omarchy repo sync artifacts
+pkgs.omarchy.org/
+.repo-host

@@ -1,0 +1,193 @@
+#!/bin/bash
+# omarchy-strudel-menu — interactive menu for the Omarchy bar widget
+# Uses walker (Omarchy default), rofi, or wofi depending on what's available
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Determine which menu tool is available
+get_menu_tool() {
+  for tool in walker rofi wofi; do
+    if command -v "$tool" &>/dev/null; then
+      echo "$tool"
+      return
+    fi
+  done
+  echo ""
+}
+
+MENU_TOOL="$(get_menu_tool)"
+
+if [[ -z "$MENU_TOOL" ]]; then
+  omarchy-notification-send "omarchy-strudel" "No menu tool found (walker/rofi/wofi)" 2>/dev/null || \
+    echo "No menu tool found. Install walker, rofi, or wofi." >&2
+  exit 1
+fi
+
+# Get current status
+get_status() {
+  omarchy-strudel status 2>/dev/null || echo '{"ok":false}'
+}
+
+# Build menu entries based on current state
+build_menu() {
+  local status
+  status="$(get_status)"
+  
+  local state song artist enabled
+  state="$(echo "$status" | jq -r '.state // "unknown"' 2>/dev/null || echo "unknown")"
+  song="$(echo "$status" | jq -r '.song // "none"' 2>/dev/null || echo "none")"
+  artist="$(echo "$status" | jq -r '.artist // ""' 2>/dev/null || echo "")"
+  enabled="$(echo "$status" | jq -r '.enabled // true' 2>/dev/null || echo "true")"
+  
+  local entries=()
+  
+  if [[ "$enabled" == "true" ]]; then
+    case "$state" in
+      playing)
+        entries+=("󰏤 Pause")
+        entries+=("󰓛 Stop")
+        ;;
+      paused)
+        entries+=("󰐊 Play")
+        entries+=("󰓛 Stop")
+        ;;
+      stopped)
+        entries+=("󰐊 Play")
+        ;;
+      *)
+        entries+=("󰐊 Play")
+        ;;
+    esac
+    
+    entries+=("󰒞 Next Song")
+    entries+=("󰒝 Previous Song")
+    entries+=("󰈙 Change Song...")
+    entries+=("󰈙 Upload Custom Song...")
+    entries+=("󰁍 Disable")
+  else
+    entries+=("󰅤 Enable")
+  fi
+  
+  entries+=("󰽪 Volume Up")
+  entries+=("󰽰 Volume Down")
+  
+  # Print entries
+  for e in "${entries[@]}"; do
+    echo "$e"
+  done
+}
+
+# Execute the selected action
+do_action() {
+  local selection="$1"
+  
+  case "$selection" in
+    "󰐊 Play")
+      omarchy-strudel play
+      ;;
+    "󰏤 Pause")
+      omarchy-strudel pause
+      ;;
+    "󰓛 Stop")
+      omarchy-strudel stop
+      ;;
+    "󰒞 Next Song")
+      omarchy-strudel next
+      ;;
+    "󰒝 Previous Song")
+      omarchy-strudel prev
+      ;;
+    "󰈙 Change Song...")
+      local songs
+      songs="$(omarchy-strudel list 2>/dev/null | jq -r '.songs[] | "\u200f\(.title) — \u200f\(.artist) [\u200f\(.name)]"' 2>/dev/null || echo "")"
+      if [[ -z "$songs" ]]; then
+        omarchy-notification-send "omarchy-strudel" "No songs available" 2>/dev/null || true
+        exit 0
+      fi
+      local chosen
+      case "$MENU_TOOL" in
+        walker)
+          chosen="$(echo "$songs" | walker --dmenu --placeholder="Select a song..." 2>/dev/null || true)"
+          ;;
+        rofi)
+          chosen="$(echo "$songs" | rofi -dmenu -i -p "Song" 2>/dev/null || true)"
+          ;;
+        wofi)
+          chosen="$(echo "$songs" | wofi --dmenu -p "Song" 2>/dev/null || true)"
+          ;;
+      esac
+      if [[ -n "$chosen" ]]; then
+        local song_name
+        song_name="$(echo "$chosen" | grep -oP '\[[^\]]+\]' | tr -d '[]' || echo "")"
+        if [[ -n "$song_name" ]]; then
+          omarchy-strudel switch "$song_name"
+        fi
+      fi
+      ;;
+    "󰈙 Upload Custom Song...")
+      local filepath
+      case "$MENU_TOOL" in
+        walker)
+          filepath="$(find "${HOME}" -name '*.js' -path '*strudel*' -o -name '*.strudel' 2>/dev/null | head -20 | walker --dmenu --placeholder="Select a .js Strudel file..." 2>/dev/null || true)"
+          ;;
+        rofi)
+          filepath="$(find "${HOME}" -maxdepth 3 -name '*.js' 2>/dev/null | head -50 | rofi -dmenu -i -p "File" 2>/dev/null || true)"
+          ;;
+        wofi)
+          filepath="$(find "${HOME}" -maxdepth 3 -name '*.js' 2>/dev/null | head -50 | wofi --dmenu -p "File" 2>/dev/null || true)"
+          ;;
+      esac
+      if [[ -n "$filepath" && -f "$filepath" ]]; then
+        local filename
+        filename="$(basename "$filepath")"
+        local dest="${HOME}/.config/omarchy-strudel/songs/custom/${filename}"
+        mkdir -p "$(dirname "$dest")"
+        cp "$filepath" "$dest"
+        omarchy-strudel load "$dest"
+        omarchy-notification-send "omarchy-strudel" "Loaded: $filename" 2>/dev/null || true
+      fi
+      ;;
+    "󰅤 Enable")
+      omarchy-strudel enable
+      ;;
+    "󰁍 Disable")
+      omarchy-strudel disable
+      ;;
+    "󰽪 Volume Up")
+      local vol
+      vol="$(omarchy-strudel status 2>/dev/null | jq -r '.volume // 0.7' 2>/dev/null || echo "0.7")"
+      vol="$(echo "$vol + 0.1" | bc -l 2>/dev/null || echo "0.8")"
+      if (( $(echo "$vol > 1.0" | bc -l) )); then vol="1.0"; fi
+      omarchy-strudel volume "$vol"
+      ;;
+    "󰽰 Volume Down")
+      local vol
+      vol="$(omarchy-strudel status 2>/dev/null | jq -r '.volume // 0.7' 2>/dev/null || echo "0.7")"
+      vol="$(echo "$vol - 0.1" | bc -l 2>/dev/null || echo "0.6")"
+      if (( $(echo "$vol < 0.0" | bc -l) )); then vol="0.0"; fi
+      omarchy-strudel volume "$vol"
+      ;;
+    *)
+      ;;
+  esac
+}
+
+# Main
+SELECTIONS="$(build_menu)"
+
+case "$MENU_TOOL" in
+  walker)
+    SELECTED="$(echo "$SELECTIONS" | walker --dmenu --placeholder="omarchy-strudel" 2>/dev/null || true)"
+    ;;
+  rofi)
+    SELECTED="$(echo "$SELECTIONS" | rofi -dmenu -i -p "Strudel" 2>/dev/null || true)"
+    ;;
+  wofi)
+    SELECTED="$(echo "$SELECTIONS" | wofi --dmenu -p "Strudel" 2>/dev/null || true)"
+    ;;
+esac
+
+if [[ -n "$SELECTED" ]]; then
+  do_action "$SELECTED"
+fi

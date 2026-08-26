@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "omarchy.strudel-bar",
+  "name": "Strudel Music",
+  "version": "0.1.0",
+  "author": "omarchy-strudel",
+  "description": "Background Strudel music control — shows playback status, click for menu",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Strudel Music",
+    "category": "Media",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {},
+    "schema": []
+  }
+}
