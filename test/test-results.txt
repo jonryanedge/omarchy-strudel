@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T12:10:23Z
+Date: 2026-08-26T12:14:57Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -28,20 +28,24 @@ Step 3: PASS
 === Step 4: Test the coastline song (samples + tonal) ===
 You should hear the beginning of coastline by eddyflux...
 (This fetches samples from GitHub — may take a few seconds to start)
-node:internal/modules/esm/resolve:274
-    throw new ERR_MODULE_NOT_FOUND(
-          ^
+🌀 @strudel/core loaded 🌀
+[superdough]: AudioWorklets disabled with disableWorklets
+Preloading samples from github:eddyflux/crate ...
+Samples loaded.
+Evaluating coastline.js...
+[eval] code updated
+[cyclist] start
+Playing! Will stop after 10 seconds...
+[webaudio] skip hap: still loading
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[sampler] load sound "crate_rim:0:0"..
+[sampler] load sound "crate_sd:3:0"..
+[sampler] load sound "crate_hh:0:0"..
+[sampler] load sound "crate_hh:1:0"..
+[sampler] load sound "crate_hh:0:0"... done! loaded 174.9 KiB in 242ms
+[sampler] loading sound "crate_hh:0" took too long
+[cyclist] stop
+Step 4: PASS
 
-Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/jre/code/omarchy-strudel/test/polyfill.mjs' imported from /home/jre/code/omarchy-strudel/test/test-step4.mjs
-    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
-    at moduleResolve (node:internal/modules/esm/resolve:864:10)
-    at defaultResolve (node:internal/modules/esm/resolve:990:11)
-    at #cachedDefaultResolve (node:internal/modules/esm/loader:757:20)
-    at ModuleLoader.resolve (node:internal/modules/esm/loader:734:38)
-    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:317:38)
-    at #link (node:internal/modules/esm/module_job:208:49) {
-  code: 'ERR_MODULE_NOT_FOUND',
-  url: 'file:///home/jre/code/omarchy-strudel/test/polyfill.mjs'
-}
-
-Node.js v25.0.0
+=== All steps passed! ===
+RESULT: ALL PASS
