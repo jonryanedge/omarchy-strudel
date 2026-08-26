@@ -42,10 +42,9 @@ if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 fi
 echo "" >> "$RESULTS"
 
-echo "=== Step 2: Test @strudel/webaudio with AudioContext polyfill ===" | tee -a "$RESULTS"
+echo "=== Step 2: Test @strudel/webaudio with polyfill ===" | tee -a "$RESULTS"
 node --input-type=module -e "
-import { AudioContext } from 'node-web-audio-api';
-globalThis.AudioContext = AudioContext;
+import 'node-web-audio-api/polyfill.js';
 import { getAudioContext } from '@strudel/webaudio';
 console.log('imported getAudioContext:', typeof getAudioContext);
 const ctx = getAudioContext();
@@ -66,8 +65,7 @@ echo "" >> "$RESULTS"
 echo "=== Step 3: Test a simple Strudel pattern ===" | tee -a "$RESULTS"
 echo "You should hear a 3-second arpeggio..." | tee -a "$RESULTS"
 node --input-type=module -e "
-import { AudioContext } from 'node-web-audio-api';
-globalThis.AudioContext = AudioContext;
+import 'node-web-audio-api/polyfill.js';
 import { repl, note } from '@strudel/core';
 import { getAudioContext, webaudioOutput } from '@strudel/webaudio';
 const ctx = getAudioContext();
@@ -88,15 +86,14 @@ echo "" >> "$RESULTS"
 echo "=== Step 4: Test the coastline song (samples + tonal) ===" | tee -a "$RESULTS"
 echo "You should hear the beginning of coastline by eddyflux..." | tee -a "$RESULTS"
 echo "(This fetches samples from GitHub — may take a few seconds to start)" | tee -a "$RESULTS"
-timeout 20 node --input-type=module -e "
-import { AudioContext } from 'node-web-audio-api';
-globalThis.AudioContext = AudioContext;
+timeout 30 node --input-type=module -e "
+import 'node-web-audio-api/polyfill.js';
 import { readFileSync } from 'node:fs';
-import { repl, note, s, n, stack, silence, setcps, sine, rand, perlin, rev, fast, slow, struct, mask, gain, room, shape, delay, lpf, lpq, hpf, cutoff, pan, clip, segment, add, sub, late, early, size, dec, decay, sustain, release, attack, phaser, fm, speed, begin, end, legato, octave, up, down, off, superimpose, degradeBy, degrade, range, reify, pure, cat, seq, fastcat, timeCat, slowcat, rarely, sometimes, always, never, chunk, ply, jux, bank, footed } from '@strudel/core';
+import { repl, note, s, n, stack, silence, setcps, sine, rand, perlin, rev, fast, slow, struct, mask, gain, room, shape, delay, lpf, lpq, hpf, cutoff, pan, clip, segment, add, sub, late, early, size, dec, decay, sustain, release, attack, phaser, fm, speed, begin, end, legato, octave, up, down, off, superimpose, degradeBy, degrade, range, reify, pure, cat, seq, fastcat, timeCat, slowcat, rarely, sometimes, always, never, chunk, ply, jux, bank, footed, chord, mode, anchor, dict, set, offset } from '@strudel/core';
 import { getAudioContext, webaudioOutput, samples, registerSynthSounds } from '@strudel/webaudio';
-import { chord, voicing, anchor, mode, scale, dict, set, offset, registerSynths } from '@strudel/tonal';
+import { voicing, scale, registerVoicings } from '@strudel/tonal';
 registerSynthSounds();
-registerSynths();
+registerVoicings();
 const ctx = getAudioContext();
 await ctx.resume();
 const { scheduler } = repl({ defaultOutput: webaudioOutput, getTime: () => ctx.currentTime });
@@ -104,7 +101,6 @@ const code = readFileSync('songs/coastline.js', 'utf-8');
 console.log('Loading samples from github:eddyflux/crate ...');
 await samples('github:eddyflux/crate');
 console.log('Samples loaded. Evaluating pattern...');
-// Wrap the code so the last expression is captured
 const wrapped = '(async () => { ' + code.replace(/\\n/g, ' ') + ' })()';
 const pattern = await eval(wrapped);
 scheduler.setPattern(pattern);

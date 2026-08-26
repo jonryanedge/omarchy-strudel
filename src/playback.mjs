@@ -1,9 +1,7 @@
-import { AudioContext } from 'node-web-audio-api';
-globalThis.AudioContext = AudioContext;
-
+import 'node-web-audio-api/polyfill.js';
 import { repl, transpiler } from '@strudel/core';
 import { getAudioContext, webaudioOutput, samples as loadSamples, registerSynthSounds } from '@strudel/webaudio';
-import { registerSynths } from '@strudel/tonal';
+import { registerVoicings } from '@strudel/tonal';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -26,7 +24,7 @@ async function init() {
   }
 
   registerSynthSounds();
-  registerSynths();
+  registerVoicings();
 
   replInstance = repl({
     defaultOutput: webaudioOutput,
