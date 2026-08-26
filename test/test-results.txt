@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:45:05Z
+Date: 2026-08-26T01:47:49Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -32,20 +32,27 @@ You should hear the beginning of coastline by eddyflux...
 (This fetches samples from GitHub — may take a few seconds to start)
 🌀 @strudel/core loaded 🌀
 Evaluating coastline.js (includes sample loading)...
-[eval] error: m is not defined
-ReferenceError: m is not defined
-    at eval (eval at Bn (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:549:10), <anonymous>:5:14)
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async On (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:557:41)
-    at async evaluate (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3311:38)
-    at async file:///home/jre/code/omarchy-strudel/[eval1]:24:17
+[eval] code updated
+[cyclist] start
+[getTrigger] error: sound gm_epiano1 not found! Is it loaded?
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
 Playing! Will stop after 10 seconds...
-file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3030
-      throw new Error("Scheduler: no pattern set! call .setPattern first.");
-            ^
+[cyclist] start
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[getTrigger] error: sound gm_epiano1 not found! Is it loaded?
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[sampler] load sound "crate_rim:0:0"..
+[sampler] load sound "crate_sd:3:0"..
+[sampler] load sound "crate_hh:0:0"..
+[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
+[sampler] load sound "crate_hh:1:0"..
+[cyclist] stop
+Step 4: PASS
 
-Error: Scheduler: no pattern set! call .setPattern first.
-    at hf.start (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3030:13)
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-
-Node.js v25.0.0
+=== All steps passed! ===
+RESULT: ALL PASS
