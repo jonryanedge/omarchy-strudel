@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:54:51Z
+Date: 2026-08-26T01:57:26Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -28,19 +28,19 @@ Step 3: PASS
 === Step 4: Test the coastline song (samples + tonal) ===
 You should hear the beginning of coastline by eddyflux...
 (This fetches samples from GitHub — may take a few seconds to start)
-file:///home/jre/code/omarchy-strudel/node_modules/sfumato/dist/sfumato.js:1
-import { DEFAULT_GENERATOR_VALUES as w, SoundFont2 as q } from "soundfont2";
-                                        ^^^^^^^^^^
-SyntaxError: Named export 'SoundFont2' not found. The requested module 'soundfont2' is a CommonJS module, which may not support all module.exports as named exports.
-CommonJS modules can always be imported via the default export, for example using:
+🌀 @strudel/core loaded 🌀
+Evaluating coastline.js (includes sample loading)...
+[eval] code updated
+[cyclist] start
+Playing! Will stop after 10 seconds...
+[webaudio] skip hap: still loading
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[sampler] load sound "crate_rim:0:0"..
+[sampler] load sound "crate_sd:3:0"..
+[sampler] load sound "crate_hh:0:0"..
+[sampler] load sound "crate_hh:1:0"..
+[cyclist] stop
+Step 4: PASS
 
-import pkg from 'soundfont2';
-const { DEFAULT_GENERATOR_VALUES: w, SoundFont2: q } = pkg;
-
-    at #_instantiate (node:internal/modules/esm/module_job:254:21)
-    at async ModuleJob.run (node:internal/modules/esm/module_job:369:5)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:278:26)
-    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:275:20)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
-
-Node.js v25.0.0
+=== All steps passed! ===
+RESULT: ALL PASS
