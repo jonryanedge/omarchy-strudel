@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "node bin/omarchy-strudel-daemon",
-    "test": "node test/test.mjs"
+    "test": "node test/test.mjs",
+    "postinstall": "bash scripts/postinstall.sh"
   },
   "license": "AGPL-3.0-or-later",
   "dependencies": {
