@@ -2,6 +2,8 @@
 // @version 1.0
 // patternuary 2024 #4
 // Source: https://strudel.cc/workshop/getting-started/
+// Modified for headless Node.js playback: removed .phaser() and .shape()
+// (per-note AudioWorklet effects are too slow without a browser audio thread)
 
 samples('github:eddyflux/crate')
 setcps(.75)
@@ -16,14 +18,14 @@ stack(
   .mask("<[0 1] 1 1 1>/16".early(.5))
   , // CHORDS
   chords.offset(-1).voicing().s("gm_epiano1:1")
-  .phaser(4).room(.5)
+  .room(.5)
   , // MELODY
   n("<0!3 1*2>").set(chords).mode("root:g2")
   .voicing().s("gm_acoustic_bass"),
   chords.n("[0 <4 3 <2 5>>*2](<3 5>,8)")
   .anchor("D5").voicing()
   .segment(4).clip(rand.range(.4,.8))
-  .room(.75).shape(.3).delay(.25)
+  .room(.75).delay(.25)
   .fm(sine.range(3,8).slow(8))
   .lpf(sine.range(500,1000).slow(8)).lpq(5)
   .rarely(ply("2")).chunk(4, fast(2))
