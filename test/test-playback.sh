@@ -66,7 +66,10 @@ echo "=== Step 3: Test a simple Strudel pattern ===" | tee -a "$RESULTS"
 echo "You should hear a 3-second arpeggio..." | tee -a "$RESULTS"
 node --input-type=module -e "
 import './src/polyfill.mjs';
-import { repl, note } from '@strudel/core';
+import * as core from '@strudel/core';
+import * as webaudio from '@strudel/webaudio';
+webaudio.registerSynthSounds();
+const { repl, note } = core;
 import { getAudioContext, webaudioOutput } from '@strudel/webaudio';
 const ctx = getAudioContext();
 await ctx.resume();
@@ -94,12 +97,14 @@ import * as webaudio from '@strudel/webaudio';
 import * as tonal from '@strudel/tonal';
 import { transpiler } from '@strudel/transpiler';
 import * as mini from '@strudel/mini';
+import { registerSoundfonts } from '@strudel/soundfonts';
 mini.miniAllStrings();
 Object.assign(globalThis, core);
 Object.assign(globalThis, webaudio);
 Object.assign(globalThis, tonal);
 Object.assign(globalThis, mini);
 webaudio.registerSynthSounds();
+registerSoundfonts();
 tonal.registerVoicings();
 const ctx = webaudio.getAudioContext();
 await ctx.resume();

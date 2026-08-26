@@ -4,6 +4,7 @@ import * as webaudio from '@strudel/webaudio';
 import * as tonal from '@strudel/tonal';
 import { transpiler } from '@strudel/transpiler';
 import * as mini from '@strudel/mini';
+import { registerSoundfonts } from '@strudel/soundfonts';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -32,6 +33,7 @@ async function init() {
   }
 
   webaudio.registerSynthSounds();
+  registerSoundfonts();
   tonal.registerVoicings();
 
   const replInstance = core.repl({
