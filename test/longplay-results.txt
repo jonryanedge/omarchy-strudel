@@ -1,0 +1,64 @@
+=== omarchy-strudel longplay test ===
+Date: 2026-08-26T15:14:01Z
+Duration: 60s
+Node: v25.0.0
+
+=== Longplay test: coastline for 60s ===
+Listen for choppiness. All errors below are logged.
+🌀 @strudel/core loaded 🌀
+[superdough]: AudioWorklets disabled with disableWorklets
+[0.1s] Preloading samples from github:eddyflux/crate
+[0.2s] Samples loaded
+[0.2s] Evaluating coastline.js...
+[eval] code updated
+[cyclist] start
+[0.4s] Playing for 60s. Listen for choppiness...
+[webaudio] skip hap: still loading
+[5.4s] health: rss=224MB heap=34MB ctx=running
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[sampler] load sound "crate_rim:0:0"..
+[sampler] load sound "crate_sd:3:0"..
+[sampler] load sound "crate_hh:0:0"..
+[sampler] load sound "crate_hh:1:0"..
+[sampler] load sound "crate_hh:0:0"... done! loaded 174.9 KiB in 182ms
+[sampler] load sound "crate_sd:3:0"... done! loaded 350.4 KiB in 211ms
+[sampler] load sound "crate_rim:0:0"... done! loaded 409.9 KiB in 218ms
+[10.4s] health: rss=289MB heap=40MB ctx=running
+[sampler] loading sound "crate_rim:0" took too long
+[sampler] load sound "crate_hh:1:0"... done! loaded 189.3 KiB in 241ms
+[sampler] load sound "crate_hh:3:0"..
+[sampler] load sound "crate_bd:0:0"..
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[sampler] load sound "crate_hh:3:0"... done! loaded 200.2 KiB in 105ms
+[sampler] load sound "crate_bd:0:0"... done! loaded 374.2 KiB in 100ms
+[sampler] load sound "crate_sd:2:0"..
+[sampler] load sound "crate_sd:2:0"... done! loaded 88.7 KiB in 75ms
+[15.4s] health: rss=306MB heap=51MB ctx=running
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[20.4s] health: rss=310MB heap=68MB ctx=running
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[25.5s] health: rss=322MB heap=52MB ctx=running
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[30.5s] health: rss=342MB heap=119MB ctx=running
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[35.5s] health: rss=344MB heap=67MB ctx=running
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[40.5s] health: rss=345MB heap=72MB ctx=running
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'
+[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'shape-processor' is not registered in 'AudioWorklet'

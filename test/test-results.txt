@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T12:14:57Z
+Date: 2026-08-26T15:12:57Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -42,8 +42,6 @@ Playing! Will stop after 10 seconds...
 [sampler] load sound "crate_sd:3:0"..
 [sampler] load sound "crate_hh:0:0"..
 [sampler] load sound "crate_hh:1:0"..
-[sampler] load sound "crate_hh:0:0"... done! loaded 174.9 KiB in 242ms
-[sampler] loading sound "crate_hh:0" took too long
 [cyclist] stop
 Step 4: PASS
 
