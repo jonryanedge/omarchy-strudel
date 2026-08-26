@@ -1,0 +1,24 @@
+=== omarchy-strudel playback test ===
+Date: 2026-08-26T00:39:01Z
+Node: v25.0.0
+npm: 11.6.2
+
+=== Step 0: Check node_modules ===
+node_modules present
+
+=== Step 1: Test node-web-audio-api produces sound ===
+You should hear a 1-second tone...
+Step 1: PASS
+
+=== Step 2: Test @strudel/webaudio getAudioContext ===
+file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:2
+import { SalatRepl as Ge } from "@kabelsalat/web";
+         ^^^^^^^^^
+SyntaxError: The requested module '@kabelsalat/web' does not provide an export named 'SalatRepl'
+    at #_instantiate (node:internal/modules/esm/module_job:254:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:369:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:278:26)
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:275:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.0.0
