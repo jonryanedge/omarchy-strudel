@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:51:04Z
+Date: 2026-08-26T01:52:51Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -22,8 +22,6 @@ Step 2: PASS
 You should hear a 3-second arpeggio...
 🌀 @strudel/core loaded 🌀
 [cyclist] start
-[getTrigger] error: not a note: "c3 e3 g3 c4"
-[getTrigger] error: not a note: "c3 e3 g3 c4"
 [cyclist] stop
 Step 3: PASS
 
