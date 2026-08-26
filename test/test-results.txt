@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:31:53Z
+Date: 2026-08-26T01:33:22Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -11,12 +11,14 @@ You should hear a 1-second tone...
 Step 1: PASS
 
 === Step 2: Test @strudel/webaudio with polyfill ===
-file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3355
-typeof window < "u" && document.addEventListener("mousemove", (t) => {
-                       ^
+🌀 @strudel/core loaded 🌀
+file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:10
+  Ut === t && s - Xt < Qe || (Ut = t, Xt = s, console.log(`%c${t}`, "background-color: black;color:white;border-radius:15px"), typeof document < "u" && typeof CustomEvent < "u" && document.dispatchEvent(
+                                                                                                                                                                                             ^
 
-ReferenceError: document is not defined
-    at file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3355:24
+TypeError: document.dispatchEvent is not a function
+    at E (file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:10:190)
+    at file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3535:1
     at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:278:26)
     at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:275:20)
