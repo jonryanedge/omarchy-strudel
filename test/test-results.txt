@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:28:13Z
+Date: 2026-08-26T01:31:53Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -10,34 +10,14 @@ node_modules present
 You should hear a 1-second tone...
 Step 1: PASS
 
-=== Step 2: Test @strudel/webaudio with AudioContext polyfill ===
-cannot use window: not in browser?
-🌀 @strudel/core loaded 🌀
-imported getAudioContext: function
-got ctx: object
-ctx state: running
-ctx state after resume: running
-Step 2: PASS
+=== Step 2: Test @strudel/webaudio with polyfill ===
+file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3355
+typeof window < "u" && document.addEventListener("mousemove", (t) => {
+                       ^
 
-=== Step 3: Test a simple Strudel pattern ===
-You should hear a 3-second arpeggio...
-cannot use window: not in browser?
-🌀 @strudel/core loaded 🌀
-[cyclist] start
-[getTrigger] error: ChannelMergerNode is not defined
-[getTrigger] error: ChannelMergerNode is not defined
-[cyclist] stop
-Step 3: PASS
-
-=== Step 4: Test the coastline song (samples + tonal) ===
-You should hear the beginning of coastline by eddyflux...
-(This fetches samples from GitHub — may take a few seconds to start)
-file:///home/jre/code/omarchy-strudel/[eval1]:7
-import { chord, voicing, anchor, mode, scale, dict, set, offset, registerSynths } from '@strudel/tonal';
-                         ^^^^^^
-SyntaxError: The requested module '@strudel/tonal' does not provide an export named 'anchor'
-    at #_instantiate (node:internal/modules/esm/module_job:254:21)
-    at async ModuleJob.run (node:internal/modules/esm/module_job:369:5)
+ReferenceError: document is not defined
+    at file:///home/jre/code/omarchy-strudel/node_modules/@strudel/core/dist/index.mjs:3355:24
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:278:26)
     at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:275:20)
     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
