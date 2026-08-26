@@ -1,4 +1,4 @@
-import { play, stop } from './playback.mjs';
+import { play, stop } from '../src/playback.mjs';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
