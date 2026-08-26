@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T01:47:49Z
+Date: 2026-08-26T01:51:04Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -22,37 +22,27 @@ Step 2: PASS
 You should hear a 3-second arpeggio...
 🌀 @strudel/core loaded 🌀
 [cyclist] start
-[getTrigger] error: sound sawtooth not found! Is it loaded?
-[getTrigger] error: sound sawtooth not found! Is it loaded?
+[getTrigger] error: not a note: "c3 e3 g3 c4"
+[getTrigger] error: not a note: "c3 e3 g3 c4"
 [cyclist] stop
 Step 3: PASS
 
 === Step 4: Test the coastline song (samples + tonal) ===
 You should hear the beginning of coastline by eddyflux...
 (This fetches samples from GitHub — may take a few seconds to start)
-🌀 @strudel/core loaded 🌀
-Evaluating coastline.js (includes sample loading)...
-[eval] code updated
-[cyclist] start
-[getTrigger] error: sound gm_epiano1 not found! Is it loaded?
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-Playing! Will stop after 10 seconds...
-[cyclist] start
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[getTrigger] error: sound gm_epiano1 not found! Is it loaded?
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[sampler] load sound "crate_rim:0:0"..
-[sampler] load sound "crate_sd:3:0"..
-[sampler] load sound "crate_hh:0:0"..
-[getTrigger] error: sound gm_acoustic_bass not found! Is it loaded?
-[sampler] load sound "crate_hh:1:0"..
-[cyclist] stop
-Step 4: PASS
+file:///home/jre/code/omarchy-strudel/node_modules/sfumato/dist/sfumato.js:1
+import { DEFAULT_GENERATOR_VALUES as w, SoundFont2 as q } from "soundfont2";
+                                        ^^^^^^^^^^
+SyntaxError: Named export 'SoundFont2' not found. The requested module 'soundfont2' is a CommonJS module, which may not support all module.exports as named exports.
+CommonJS modules can always be imported via the default export, for example using:
 
-=== All steps passed! ===
-RESULT: ALL PASS
+import pkg from 'soundfont2';
+const { DEFAULT_GENERATOR_VALUES: w, SoundFont2: q } = pkg;
+
+    at #_instantiate (node:internal/modules/esm/module_job:254:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:369:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:278:26)
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:275:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.0.0
