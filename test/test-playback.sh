@@ -68,9 +68,11 @@ node --input-type=module -e "
 import './src/polyfill.mjs';
 import * as core from '@strudel/core';
 import * as webaudio from '@strudel/webaudio';
+import * as mini from '@strudel/mini';
+mini.miniAllStrings();
 webaudio.registerSynthSounds();
 const { repl, note } = core;
-import { getAudioContext, webaudioOutput } from '@strudel/webaudio';
+const { getAudioContext, webaudioOutput } = webaudio;
 const ctx = getAudioContext();
 await ctx.resume();
 const { scheduler } = repl({ defaultOutput: webaudioOutput, getTime: () => ctx.currentTime });
