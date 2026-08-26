@@ -60,14 +60,52 @@ async function preloadSamples(code) {
   const sampleCalls = code.match(/samples\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g);
   if (!sampleCalls) return;
 
+  // Collect bank names (from .bank("...")) and raw sound names (from s("..."))
+  const banks = new Set();
+  for (const m of code.matchAll(/\.bank\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g)) {
+    banks.add(m[1].toLowerCase());
+  }
+  const soundNames = new Set();
+  for (const m of code.matchAll(/\bs\s*\(\s*['"`]([^'"`]+)['"`]/g)) {
+    soundNames.add(m[1].split(':')[0].toLowerCase());
+  }
+
+  // With a bank, s("bd") looks up "crate_bd"; also try the bare name.
+  const lookupNames = new Set(soundNames);
+  for (const bank of banks) {
+    for (const name of soundNames) {
+      lookupNames.add(`${bank}_${name}`);
+    }
+  }
+
   for (const call of sampleCalls) {
     const urlMatch = call.match(/samples\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/);
-    if (urlMatch) {
-      const url = urlMatch[1];
+    if (!urlMatch) continue;
+    const url = urlMatch[1];
+    try {
+      await webaudio.samples(url);
+    } catch (e) {
+      console.warn(`[omarchy-strudel] Could not preload samples from ${url}:`, e.message);
+      continue;
+    }
+
+    // Force-load audio buffers for the sounds this song actually uses,
+    // so the first hit of each sound doesn't get skipped.
+    const ctx2 = webaudio.getAudioContext();
+    for (const name of lookupNames) {
       try {
-        await webaudio.samples(url);
-      } catch (e) {
-        console.warn(`[omarchy-strudel] Could not preload samples from ${url}:`, e.message);
+        const sound = webaudio.getSound ? webaudio.getSound(name) : null;
+        if (!sound) continue;
+        const urls = Array.isArray(sound)
+          ? sound
+          : Object.values(sound).flat().filter((v) => typeof v === 'string');
+        await Promise.all(
+          urls.slice(0, 6).map((u) =>
+            webaudio.loadBuffer(u, ctx2).catch(() => {})
+          )
+        );
+      } catch {
+        // sound not in this bank — skip
       }
     }
   }
