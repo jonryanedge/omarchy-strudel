@@ -1,10 +1,14 @@
 import 'node-web-audio-api/polyfill.js';
 
+const domStub = {
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  dispatchEvent: () => true,
+};
+
 if (!globalThis.document) {
   globalThis.document = {
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => true,
+    ...domStub,
     createElement: () => ({ style: {}, getContext: () => null }),
     querySelector: () => null,
     body: {},
@@ -24,6 +28,11 @@ if (!globalThis.CustomEvent) {
 if (!globalThis.window) {
   globalThis.window = {};
 }
+
 if (!globalThis.window.document) {
   globalThis.window.document = globalThis.document;
 }
+
+globalThis.window.addEventListener = globalThis.window.addEventListener || domStub.addEventListener;
+globalThis.window.removeEventListener = globalThis.window.removeEventListener || domStub.removeEventListener;
+globalThis.window.dispatchEvent = globalThis.window.dispatchEvent || domStub.dispatchEvent;
