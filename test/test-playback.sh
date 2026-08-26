@@ -13,16 +13,6 @@ echo "Node: $(node --version 2>/dev/null || echo 'not found')" >> "$RESULTS"
 echo "npm: $(npm --version 2>/dev/null || echo 'not found')" >> "$RESULTS"
 echo "" >> "$RESULTS"
 
-run_step() {
-  local name="$1"
-  echo "=== $name ===" | tee -a "$RESULTS"
-  shift
-  "$@" 2>&1 | tee -a "$RESULTS"
-  local rc=${PIPESTATUS[0]}
-  echo "" >> "$RESULTS"
-  return $rc
-}
-
 echo "=== Step 0: Check node_modules ===" | tee -a "$RESULTS"
 if [[ ! -d node_modules ]]; then
   echo "node_modules missing. Run: npm install" | tee -a "$RESULTS"
@@ -52,8 +42,10 @@ if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 fi
 echo "" >> "$RESULTS"
 
-echo "=== Step 2: Test @strudel/webaudio getAudioContext ===" | tee -a "$RESULTS"
+echo "=== Step 2: Test @strudel/webaudio with AudioContext polyfill ===" | tee -a "$RESULTS"
 node --input-type=module -e "
+import { AudioContext } from 'node-web-audio-api';
+globalThis.AudioContext = AudioContext;
 import { getAudioContext } from '@strudel/webaudio';
 console.log('imported getAudioContext:', typeof getAudioContext);
 const ctx = getAudioContext();
@@ -74,6 +66,8 @@ echo "" >> "$RESULTS"
 echo "=== Step 3: Test a simple Strudel pattern ===" | tee -a "$RESULTS"
 echo "You should hear a 3-second arpeggio..." | tee -a "$RESULTS"
 node --input-type=module -e "
+import { AudioContext } from 'node-web-audio-api';
+globalThis.AudioContext = AudioContext;
 import { repl, note } from '@strudel/core';
 import { getAudioContext, webaudioOutput } from '@strudel/webaudio';
 const ctx = getAudioContext();
@@ -94,31 +88,29 @@ echo "" >> "$RESULTS"
 echo "=== Step 4: Test the coastline song (samples + tonal) ===" | tee -a "$RESULTS"
 echo "You should hear the beginning of coastline by eddyflux..." | tee -a "$RESULTS"
 echo "(This fetches samples from GitHub — may take a few seconds to start)" | tee -a "$RESULTS"
-timeout 15 node --input-type=module -e "
+timeout 20 node --input-type=module -e "
+import { AudioContext } from 'node-web-audio-api';
+globalThis.AudioContext = AudioContext;
 import { readFileSync } from 'node:fs';
-import { repl } from '@strudel/core';
-import { getAudioContext, webaudioOutput, samples } from '@strudel/webaudio';
+import { repl, note, s, n, stack, silence, setcps, sine, rand, perlin, rev, fast, slow, struct, mask, gain, room, shape, delay, lpf, lpq, hpf, cutoff, pan, clip, segment, add, sub, late, early, size, dec, decay, sustain, release, attack, phaser, fm, speed, begin, end, legato, octave, up, down, off, superimpose, degradeBy, degrade, range, reify, pure, cat, seq, fastcat, timeCat, slowcat, rarely, sometimes, always, never, chunk, ply, jux, bank, footed } from '@strudel/core';
+import { getAudioContext, webaudioOutput, samples, registerSynthSounds } from '@strudel/webaudio';
+import { chord, voicing, anchor, mode, scale, dict, set, offset, registerSynths } from '@strudel/tonal';
+registerSynthSounds();
+registerSynths();
 const ctx = getAudioContext();
 await ctx.resume();
 const { scheduler } = repl({ defaultOutput: webaudioOutput, getTime: () => ctx.currentTime });
 const code = readFileSync('songs/coastline.js', 'utf-8');
-console.log('Evaluating coastline.js...');
-try {
-  const pattern = await evaluate(code);
-  scheduler.setPattern(pattern);
-  scheduler.start();
-  console.log('Playing! Will stop after 10 seconds...');
-  setTimeout(() => { scheduler.stop(); console.log('Step 4: PASS'); process.exit(0); }, 10000);
-} catch(e) {
-  console.error('Step 4: FAIL -', e.message);
-  process.exit(1);
-}
-function evaluate(code) {
-  return import('@strudel/core').then(core => {
-    if (core.evaluate) return core.evaluate(code);
-    throw new Error('No evaluate function found in @strudel/core');
-  });
-}
+console.log('Loading samples from github:eddyflux/crate ...');
+await samples('github:eddyflux/crate');
+console.log('Samples loaded. Evaluating pattern...');
+// Wrap the code so the last expression is captured
+const wrapped = '(async () => { ' + code.replace(/\\n/g, ' ') + ' })()';
+const pattern = await eval(wrapped);
+scheduler.setPattern(pattern);
+scheduler.start();
+console.log('Playing! Will stop after 10 seconds...');
+setTimeout(() => { scheduler.stop(); console.log('Step 4: PASS'); process.exit(0); }, 10000);
 " 2>&1 | tee -a "$RESULTS"
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
   echo "Step 4: FAIL (or timed out)" | tee -a "$RESULTS"
