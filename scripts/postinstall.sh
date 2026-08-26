@@ -15,19 +15,20 @@ console.log('Patched @kabelsalat/web exports field');
 fi
 
 # Fix soundfont2: CJS package, but sfumato imports named exports from it.
-# Create an ESM wrapper that re-exports from the CJS module.
+# Create an ESM wrapper and patch package.json exports + type.
 PKG_DIR="node_modules/soundfont2"
 if [[ -d "$PKG_DIR" ]]; then
   cat > "${PKG_DIR}/esm-wrapper.mjs" <<'WRAPPER'
 import sf2 from './lib/SoundFont2.node.js';
-const { DEFAULT_GENERATOR_VALUES, SoundFont2 } = sf2;
-export { DEFAULT_GENERATOR_VALUES, SoundFont2 };
+export const DEFAULT_GENERATOR_VALUES = sf2.DEFAULT_GENERATOR_VALUES;
+export const SoundFont2 = sf2.SoundFont2;
 export default sf2;
 WRAPPER
 
   node -e "
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('${PKG_DIR}/package.json', 'utf-8'));
+pkg.type = 'module';
 pkg.exports = {
   '.': {
     'import': './esm-wrapper.mjs',
@@ -35,6 +36,6 @@ pkg.exports = {
   }
 };
 fs.writeFileSync('${PKG_DIR}/package.json', JSON.stringify(pkg, null, 2) + '\n');
-console.log('Patched soundfont2 with ESM wrapper');
+console.log('Patched soundfont2 with ESM wrapper + type:module');
 "
 fi
