@@ -1,5 +1,5 @@
 === omarchy-strudel playback test ===
-Date: 2026-08-26T15:12:57Z
+Date: 2026-08-26T18:00:16Z
 Node: v25.0.0
 npm: 11.6.2
 
@@ -37,7 +37,6 @@ Evaluating coastline.js...
 [cyclist] start
 Playing! Will stop after 10 seconds...
 [webaudio] skip hap: still loading
-[getTrigger] error: Failed to construct 'AudioWorkletNode': processor 'lfo-processor' is not registered in 'AudioWorklet'
 [sampler] load sound "crate_rim:0:0"..
 [sampler] load sound "crate_sd:3:0"..
 [sampler] load sound "crate_hh:0:0"..
