@@ -1,53 +1,50 @@
 === omarchy-strudel longplay test ===
-Date: 2026-08-29T22:56:05Z
+Date: 2026-08-29T23:01:33Z
 Duration: 60s
 Node: v25.0.0
 
 === Longplay test: coastline for 60s ===
 Listen for choppiness. All errors below are logged.
 🌀 @strudel/core loaded 🌀
+[0.0s] Starting playback (includes sample preloading)...
 [superdough]: AudioWorklets disabled with disableWorklets
-[0.1s] Preloading samples from github:eddyflux/crate
-[0.3s] Samples loaded
-[0.3s] Evaluating coastline.js...
 [eval] code updated
 [cyclist] start
 [0.5s] Playing for 60s. Listen for choppiness...
 [webaudio] skip hap: still loading
-[5.5s] health: rss=215MB heap=33MB ctx=running
+[5.5s] health: rss=222MB heap=26MB ctx=running
 [sampler] load sound "crate_rim:0:0"..
 [sampler] load sound "crate_sd:3:0"..
 [sampler] load sound "crate_hh:0:0"..
 [sampler] load sound "crate_hh:1:0"..
-[10.5s] health: rss=294MB heap=72MB ctx=running
-[sampler] load sound "crate_hh:0:0"... done! loaded 174.9 KiB in 235ms
-[sampler] loading sound "crate_hh:0" took too long
-[sampler] load sound "crate_sd:3:0"... done! loaded 350.4 KiB in 280ms
-[sampler] load sound "crate_rim:0:0"... done! loaded 409.9 KiB in 334ms
+[sampler] load sound "crate_sd:3:0"... done! loaded 350.4 KiB in 213ms
+[sampler] load sound "crate_rim:0:0"... done! loaded 409.9 KiB in 219ms
 [sampler] loading sound "crate_sd:3" took too long
 [sampler] loading sound "crate_rim:0" took too long
-[sampler] load sound "crate_hh:1:0"... done! loaded 189.3 KiB in 261ms
+[10.5s] health: rss=310MB heap=31MB ctx=running
+[sampler] load sound "crate_hh:0:0"... done! loaded 174.9 KiB in 311ms
+[sampler] loading sound "crate_hh:0" took too long
+[sampler] load sound "crate_hh:1:0"... done! loaded 189.3 KiB in 251ms
 [sampler] load sound "crate_hh:3:0"..
 [sampler] load sound "crate_bd:0:0"..
-[sampler] load sound "crate_hh:3:0"... done! loaded 200.2 KiB in 135ms
-[sampler] load sound "crate_bd:0:0"... done! loaded 374.2 KiB in 164ms
+[sampler] load sound "crate_hh:3:0"... done! loaded 200.2 KiB in 123ms
+[sampler] load sound "crate_bd:0:0"... done! loaded 374.2 KiB in 125ms
 [sampler] load sound "crate_sd:2:0"..
-[sampler] load sound "crate_sd:2:0"... done! loaded 88.7 KiB in 118ms
-[15.5s] health: rss=318MB heap=37MB ctx=running
-[20.5s] health: rss=319MB heap=42MB ctx=running
-[25.5s] health: rss=330MB heap=60MB ctx=running
-[30.5s] health: rss=350MB heap=77MB ctx=running
-[35.5s] health: rss=355MB heap=60MB ctx=running
-[40.5s] health: rss=355MB heap=93MB ctx=running
+[sampler] load sound "crate_sd:2:0"... done! loaded 88.7 KiB in 77ms
+[15.5s] health: rss=317MB heap=43MB ctx=running
+[20.5s] health: rss=335MB heap=90MB ctx=running
+[25.5s] health: rss=354MB heap=65MB ctx=running
+[30.5s] health: rss=354MB heap=86MB ctx=running
+[35.5s] health: rss=354MB heap=40MB ctx=running
+[40.5s] health: rss=354MB heap=55MB ctx=running
 [sampler] load sound "crate_rd:1:0"..
-[sampler] load sound "crate_rd:1:0"... done! loaded 2.3 MiB in 673ms
+[sampler] load sound "crate_rd:1:0"... done! loaded 2.3 MiB in 421ms
 [sampler] loading sound "crate_rd:1" took too long
 [sampler] load sound "crate_rd:2:0"..
-[sampler] load sound "crate_rd:2:0"... done! loaded 2.5 MiB in 345ms
-[sampler] loading sound "crate_rd:2" took too long
-[45.5s] health: rss=384MB heap=101MB ctx=running
-[50.5s] health: rss=384MB heap=28MB ctx=running
-[55.5s] health: rss=384MB heap=49MB ctx=running
+[sampler] load sound "crate_rd:2:0"... done! loaded 2.5 MiB in 218ms
+[45.5s] health: rss=384MB heap=57MB ctx=running
+[50.5s] health: rss=386MB heap=68MB ctx=running
+[55.5s] health: rss=388MB heap=45MB ctx=running
 [cyclist] stop
 [60.5s] Done. Played 60s total.
 
