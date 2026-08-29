@@ -1,5 +1,5 @@
 === omarchy-strudel longplay test ===
-Date: 2026-08-26T20:22:06Z
+Date: 2026-08-29T22:56:05Z
 Duration: 60s
 Node: v25.0.0
 
@@ -14,41 +14,40 @@ Listen for choppiness. All errors below are logged.
 [cyclist] start
 [0.5s] Playing for 60s. Listen for choppiness...
 [webaudio] skip hap: still loading
-[5.5s] health: rss=223MB heap=26MB ctx=running
+[5.5s] health: rss=215MB heap=33MB ctx=running
 [sampler] load sound "crate_rim:0:0"..
 [sampler] load sound "crate_sd:3:0"..
 [sampler] load sound "crate_hh:0:0"..
 [sampler] load sound "crate_hh:1:0"..
-[10.5s] health: rss=309MB heap=21MB ctx=running
-[sampler] load sound "crate_hh:0:0"... done! loaded 174.9 KiB in 238ms
+[10.5s] health: rss=294MB heap=72MB ctx=running
+[sampler] load sound "crate_hh:0:0"... done! loaded 174.9 KiB in 235ms
 [sampler] loading sound "crate_hh:0" took too long
-[sampler] load sound "crate_sd:3:0"... done! loaded 350.4 KiB in 312ms
-[sampler] load sound "crate_rim:0:0"... done! loaded 409.9 KiB in 321ms
+[sampler] load sound "crate_sd:3:0"... done! loaded 350.4 KiB in 280ms
+[sampler] load sound "crate_rim:0:0"... done! loaded 409.9 KiB in 334ms
 [sampler] loading sound "crate_sd:3" took too long
 [sampler] loading sound "crate_rim:0" took too long
-[sampler] load sound "crate_hh:1:0"... done! loaded 189.3 KiB in 276ms
+[sampler] load sound "crate_hh:1:0"... done! loaded 189.3 KiB in 261ms
 [sampler] load sound "crate_hh:3:0"..
-[sampler] loading sound "crate_hh:1" took too long
-[sampler] load sound "crate_hh:3:0"... done! loaded 200.2 KiB in 127ms
 [sampler] load sound "crate_bd:0:0"..
-[sampler] load sound "crate_bd:0:0"... done! loaded 374.2 KiB in 145ms
+[sampler] load sound "crate_hh:3:0"... done! loaded 200.2 KiB in 135ms
+[sampler] load sound "crate_bd:0:0"... done! loaded 374.2 KiB in 164ms
 [sampler] load sound "crate_sd:2:0"..
-[sampler] load sound "crate_sd:2:0"... done! loaded 88.7 KiB in 128ms
-[15.5s] health: rss=314MB heap=53MB ctx=running
-[20.5s] health: rss=315MB heap=26MB ctx=running
-[25.5s] health: rss=316MB heap=45MB ctx=running
-[30.5s] health: rss=334MB heap=62MB ctx=running
-[35.5s] health: rss=355MB heap=112MB ctx=running
-[40.5s] health: rss=357MB heap=60MB ctx=running
+[sampler] load sound "crate_sd:2:0"... done! loaded 88.7 KiB in 118ms
+[15.5s] health: rss=318MB heap=37MB ctx=running
+[20.5s] health: rss=319MB heap=42MB ctx=running
+[25.5s] health: rss=330MB heap=60MB ctx=running
+[30.5s] health: rss=350MB heap=77MB ctx=running
+[35.5s] health: rss=355MB heap=60MB ctx=running
+[40.5s] health: rss=355MB heap=93MB ctx=running
 [sampler] load sound "crate_rd:1:0"..
-[sampler] load sound "crate_rd:1:0"... done! loaded 2.3 MiB in 799ms
+[sampler] load sound "crate_rd:1:0"... done! loaded 2.3 MiB in 673ms
 [sampler] loading sound "crate_rd:1" took too long
 [sampler] load sound "crate_rd:2:0"..
-[45.5s] health: rss=369MB heap=67MB ctx=running
-[sampler] load sound "crate_rd:2:0"... done! loaded 2.5 MiB in 682ms
+[sampler] load sound "crate_rd:2:0"... done! loaded 2.5 MiB in 345ms
 [sampler] loading sound "crate_rd:2" took too long
-[50.5s] health: rss=376MB heap=37MB ctx=running
-[55.5s] health: rss=379MB heap=78MB ctx=running
+[45.5s] health: rss=384MB heap=101MB ctx=running
+[50.5s] health: rss=384MB heap=28MB ctx=running
+[55.5s] health: rss=384MB heap=49MB ctx=running
 [cyclist] stop
 [60.5s] Done. Played 60s total.
 
