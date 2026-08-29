@@ -95,10 +95,13 @@ async function preloadSamples(code) {
     for (const name of lookupNames) {
       try {
         const sound = webaudio.getSound ? webaudio.getSound(name) : null;
-        if (!sound) continue;
-        const urls = Array.isArray(sound)
-          ? sound
-          : Object.values(sound).flat().filter((v) => typeof v === 'string');
+        if (!sound || !sound.data) continue;
+        const samples = sound.data.samples;
+        if (!samples) continue;
+        // samples can be an array of URLs, or an object of sub-arrays
+        const urls = Array.isArray(samples)
+          ? samples
+          : Object.values(samples).flat().filter((v) => typeof v === 'string');
         await Promise.all(
           urls.slice(0, 6).map((u) =>
             webaudio.loadBuffer(u, ctx2).catch(() => {})
