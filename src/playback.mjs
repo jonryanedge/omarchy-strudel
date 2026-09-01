@@ -60,14 +60,20 @@ async function preloadSamples(code) {
   const sampleCalls = code.match(/samples\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g);
   if (!sampleCalls) return;
 
-  // Collect bank names (from .bank("...")) and raw sound names (from s("..."))
+  // Collect bank names (from .bank("...")) and raw sound names (from s("...")).
+  // Sound names may be embedded in mini-notation (e.g. s("~ [rim, sd:<2 3>]")),
+  // so extract all word-like tokens from the pattern string.
   const banks = new Set();
   for (const m of code.matchAll(/\.bank\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g)) {
     banks.add(m[1].toLowerCase());
   }
   const soundNames = new Set();
-  for (const m of code.matchAll(/\bs\s*\(\s*['"`]([^'"`]+)['"`]/g)) {
-    soundNames.add(m[1].split(':')[0].toLowerCase());
+  for (const m of code.matchAll(/\b(?:\.)?s\s*\(\s*['"`]([^'"`]+)['"`]/g)) {
+    const tokens = m[1].match(/[a-zA-Z][a-zA-Z0-9_-]*/g) || [];
+    for (const token of tokens) {
+      if (token === 'x') continue; // struct marker, not a sound
+      soundNames.add(token.toLowerCase());
+    }
   }
 
   // With a bank, s("bd") looks up "crate_bd"; also try the bare name.
