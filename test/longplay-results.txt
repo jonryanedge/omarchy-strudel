@@ -1,5 +1,5 @@
 === omarchy-strudel longplay test ===
-Date: 2026-08-30T14:09:40Z
+Date: 2026-09-01T23:23:33Z
 Duration: 60s
 Node: v25.0.0
 
@@ -9,50 +9,50 @@ Listen for choppiness. All errors below are logged.
 [0.0s] Starting playback (includes sample preloading)...
 [superdough]: AudioWorklets disabled with disableWorklets
 [sampler] load sample..
-[sampler] load sample... done! loaded 374.2 KiB in 245ms
-[sampler] load sample... done! loaded 172.3 KiB in 248ms
-[sampler] load sample... done! loaded 407.5 KiB in 320ms
-[sampler] load sample... done! loaded 338.7 KiB in 334ms
-[sampler] load sample... done! loaded 321.8 KiB in 334ms
-[sampler] load sample... done! loaded 578.6 KiB in 417ms
+[sampler] load sample... done! loaded 374.2 KiB in 205ms
+[sampler] load sample... done! loaded 172.3 KiB in 298ms
+[sampler] load sample... done! loaded 407.5 KiB in 358ms
+[sampler] load sample... done! loaded 338.7 KiB in 355ms
+[sampler] load sample... done! loaded 321.8 KiB in 380ms
+[sampler] load sample... done! loaded 578.6 KiB in 401ms
 [sampler] load sample..
-[sampler] load sample... done! loaded 174.9 KiB in 103ms
-[sampler] load sample... done! loaded 200.2 KiB in 120ms
-[sampler] load sample... done! loaded 189.3 KiB in 144ms
-[sampler] load sample... done! loaded 125.8 KiB in 148ms
+[sampler] load sample... done! loaded 174.9 KiB in 97ms
+[sampler] load sample... done! loaded 189.3 KiB in 120ms
+[sampler] load sample... done! loaded 200.2 KiB in 131ms
+[sampler] load sample... done! loaded 125.8 KiB in 151ms
+[sampler] load sample... done! loaded 185.0 KiB in 159ms
 [sampler] load sample... done! loaded 193.5 KiB in 159ms
-[sampler] load sample... done! loaded 185.0 KiB in 172ms
 [sampler] load sample..
-[sampler] load sample... done! loaded 2.3 MiB in 571ms
-[sampler] load sample... done! loaded 2.9 MiB in 611ms
-[sampler] load sample... done! loaded 2.5 MiB in 669ms
-[sampler] load sample... done! loaded 1.6 MiB in 838ms
-[sampler] load sample... done! loaded 2.2 MiB in 890ms
-[sampler] load sample... done! loaded 2.5 MiB in 1023ms
+[sampler] load sample... done! loaded 2.9 MiB in 511ms
+[sampler] load sample... done! loaded 2.3 MiB in 623ms
+[sampler] load sample... done! loaded 2.5 MiB in 708ms
+[sampler] load sample... done! loaded 1.6 MiB in 824ms
+[sampler] load sample... done! loaded 2.2 MiB in 934ms
+[sampler] load sample... done! loaded 2.5 MiB in 1262ms
 [eval] code updated
 [cyclist] start
-[2.2s] Playing for 60s. Listen for choppiness...
+[2.4s] Playing for 60s. Listen for choppiness...
 [webaudio] skip hap: still loading
-[7.2s] health: rss=277MB heap=61MB ctx=running
+[7.4s] health: rss=280MB heap=46MB ctx=running
 [sampler] load sound "crate_rim:0:0"..
 [sampler] load sound "crate_sd:3:0"..
-[12.2s] health: rss=343MB heap=38MB ctx=running
-[sampler] load sound "crate_rim:0:0"... done! loaded 409.9 KiB in 398ms
+[12.4s] health: rss=345MB heap=32MB ctx=running
+[sampler] load sound "crate_rim:0:0"... done! loaded 409.9 KiB in 312ms
+[sampler] load sound "crate_sd:3:0"... done! loaded 350.4 KiB in 311ms
 [sampler] loading sound "crate_rim:0" took too long
-[sampler] load sound "crate_sd:3:0"... done! loaded 350.4 KiB in 404ms
 [sampler] loading sound "crate_sd:3" took too long
 [sampler] load sound "crate_sd:2:0"..
-[sampler] load sound "crate_sd:2:0"... done! loaded 88.7 KiB in 103ms
-[17.2s] health: rss=346MB heap=61MB ctx=running
-[22.2s] health: rss=364MB heap=56MB ctx=running
-[27.2s] health: rss=382MB heap=21MB ctx=running
-[32.2s] health: rss=382MB heap=47MB ctx=running
-[37.2s] health: rss=383MB heap=59MB ctx=running
-[42.2s] health: rss=385MB heap=116MB ctx=running
-[47.2s] health: rss=392MB heap=50MB ctx=running
-[52.2s] health: rss=392MB heap=67MB ctx=running
-[57.2s] health: rss=394MB heap=66MB ctx=running
+[sampler] load sound "crate_sd:2:0"... done! loaded 88.7 KiB in 136ms
+[17.4s] health: rss=348MB heap=38MB ctx=running
+[22.4s] health: rss=366MB heap=78MB ctx=running
+[27.4s] health: rss=385MB heap=104MB ctx=running
+[32.4s] health: rss=388MB heap=58MB ctx=running
+[37.4s] health: rss=388MB heap=58MB ctx=running
+[42.4s] health: rss=388MB heap=76MB ctx=running
+[47.4s] health: rss=390MB heap=83MB ctx=running
+[52.4s] health: rss=394MB heap=31MB ctx=running
+[57.4s] health: rss=395MB heap=62MB ctx=running
 [cyclist] stop
-[62.2s] Done. Played 60s total.
+[62.4s] Done. Played 60s total.
 
 === Longplay test done ===
