@@ -30,6 +30,7 @@ Commands:
   enable              Enable playback (allows autoplay)
   disable             Disable playback and stop current song
   volume <0-1>        Set volume (0.0 to 1.0)
+  timeout <seconds>   Set playback duration (0 = indefinite)
   menu                Open the interactive menu
   daemon              Start the daemon (called by systemd)
   restart             Restart the daemon service
@@ -39,6 +40,8 @@ Examples:
   omarchy-strudel status
   omarchy-strudel switch coastline.js
   omarchy-strudel volume 0.5
+  omarchy-strudel timeout 1800
+  omarchy-strudel timeout 0
   omarchy-strudel load ~/my-song.js
 EOF
 }
@@ -89,7 +92,6 @@ case "$cmd" in
     ;;
   load)
     [[ $# -ge 1 ]] || { echo "usage: omarchy-strudel load <file>" >&2; exit 1; }
-    local filepath
     filepath="$(readlink -f "$1" 2>/dev/null || echo "$1")"
     send_cmd "{\"cmd\":\"load_file\",\"path\":\"$filepath\"}"
     ;;
@@ -103,6 +105,10 @@ case "$cmd" in
     [[ $# -ge 1 ]] || { echo "usage: omarchy-strudel volume <0-1>" >&2; exit 1; }
     send_cmd "{\"cmd\":\"volume\",\"level\":$1}"
     ;;
+  timeout)
+    [[ $# -ge 1 ]] || { echo "usage: omarchy-strudel timeout <seconds> (0 = indefinite)" >&2; exit 1; }
+    send_cmd "{\"cmd\":\"timeout\",\"seconds\":$1}"
+    ;;
   menu)
     exec "$SCRIPT_DIR/omarchy-strudel-menu"
     ;;
@@ -114,7 +120,7 @@ case "$cmd" in
     echo "Daemon restarted"
     ;;
   log)
-    local logfile="${HOME}/.local/state/omarchy-strudel/daemon.log"
+    logfile="${HOME}/.local/state/omarchy-strudel/daemon.log"
     if [[ -f "$logfile" ]]; then
       tail -n 50 "$logfile"
     else

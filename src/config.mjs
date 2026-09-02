@@ -16,6 +16,7 @@ const DEFAULT_CONFIG = {
   volume: 0.7,
   currentSong: 'coastline.js',
   autoplay: true,
+  playbackSeconds: 0,
 };
 
 const DEFAULT_STATE = {

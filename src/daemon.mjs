@@ -11,6 +11,39 @@ const BUNDLED_SONGS_DIR = join(__dirname, '..', 'songs');
 let config = null;
 let state = null;
 let retryingPipeWire = false;
+let playbackTimer = null;
+let timerEndsAt = null;
+
+function clearPlaybackTimer() {
+  if (playbackTimer) {
+    clearTimeout(playbackTimer);
+    playbackTimer = null;
+  }
+  timerEndsAt = null;
+}
+
+function getRemainingSeconds() {
+  if (!timerEndsAt) return null;
+  const remaining = Math.max(0, Math.round((timerEndsAt - Date.now()) / 1000));
+  return remaining;
+}
+
+// Start (or restart) the playback countdown. `secondsOverride` lets pause/resume
+// continue the countdown with the time that was left instead of restarting it.
+function startPlaybackTimer(secondsOverride) {
+  clearPlaybackTimer();
+  const seconds = secondsOverride ?? config.playbackSeconds ?? 0;
+  if (seconds > 0) {
+    timerEndsAt = Date.now() + seconds * 1000;
+    playbackTimer = setTimeout(() => {
+      log(`Playback duration of ${seconds}s reached, stopping`);
+      stopPattern();
+      state = updateState({ state: 'stopped' });
+      clearPlaybackTimer();
+    }, seconds * 1000);
+    log(`Playback timer set: ${seconds}s`);
+  }
+}
 
 async function handleCommand(msg, socket) {
   const { cmd } = msg;
@@ -30,6 +63,8 @@ async function handleCommand(msg, socket) {
           title: state.title,
           volume: getVolume(),
           enabled: config.enabled,
+          playbackSeconds: config.playbackSeconds ?? 0,
+          remaining: state.state === 'playing' ? getRemainingSeconds() : null,
         });
         break;
       
@@ -42,15 +77,20 @@ async function handleCommand(msg, socket) {
         sendResponse(socket, { ok: true, state: state.state, song: state.song });
         break;
       
-      case 'pause':
+      case 'pause': {
+        // Remember how much time was left so resume can continue the countdown
+        const remaining = getRemainingSeconds();
         pausePattern();
-        state = updateState({ state: 'paused' });
+        state = updateState({ state: 'paused', remainingSeconds: remaining });
+        clearPlaybackTimer();
         sendResponse(socket, { ok: true, state: state.state });
         break;
-      
+      }
+
       case 'stop':
         stopPattern();
-        state = updateState({ state: 'stopped' });
+        state = updateState({ state: 'stopped', remainingSeconds: null });
+        clearPlaybackTimer();
         sendResponse(socket, { ok: true, state: state.state });
         break;
       
@@ -92,7 +132,8 @@ async function handleCommand(msg, socket) {
       case 'disable':
         stopPattern();
         config = updateConfig({ enabled: false });
-        state = updateState({ state: 'stopped' });
+        state = updateState({ state: 'stopped', remainingSeconds: null });
+        clearPlaybackTimer();
         sendResponse(socket, { ok: true, enabled: false });
         break;
       
@@ -102,6 +143,17 @@ async function handleCommand(msg, socket) {
         config = updateConfig({ volume: vol });
         sendResponse(socket, { ok: true, volume: vol });
         break;
+
+      case 'timeout': {
+        const seconds = Math.max(0, Math.floor(Number(msg.seconds) || 0));
+        config = updateConfig({ playbackSeconds: seconds });
+        // If currently playing, apply the new duration as a fresh countdown
+        if (state.state === 'playing') {
+          startPlaybackTimer();
+        }
+        sendResponse(socket, { ok: true, playbackSeconds: seconds });
+        break;
+      }
       
       case 'list':
         const songs = discoverSongs().map(s => ({
@@ -176,11 +228,17 @@ async function doPlayCode(code, title, artist) {
     state = updateState({ state: 'stopped' });
     return;
   }
-  
+
   try {
     await playPattern(code);
     state = updateState({ state: 'playing', song: title, artist, title });
     log(`Playing: ${title} by ${artist}`);
+    // Fresh countdown (or continue one that survived pause)
+    const resumeRemaining = state.remainingSeconds;
+    startPlaybackTimer(resumeRemaining ?? undefined);
+    if (resumeRemaining != null) {
+      state = updateState({ remainingSeconds: null });
+    }
   } catch (e) {
     log(`Playback error: ${e.message}`);
     state = updateState({ state: 'error', error: e.message });
