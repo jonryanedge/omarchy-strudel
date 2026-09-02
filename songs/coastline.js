@@ -1,6 +1,7 @@
 // "coastline" @by eddyflux
 // @version 1.0
 // patternuary 2024 #4
+// bpm 180 | Bb minor: Bbm9 . Fm9
 // Source: https://strudel.cc/workshop/getting-started/
 // Modified for headless Node.js playback: removed .phaser() and .shape()
 // (per-note AudioWorklet effects are too slow without a browser audio thread)

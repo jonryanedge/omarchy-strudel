@@ -2,6 +2,7 @@
 // w/ GLM-5.3-Flash
 // @version 1.0
 // Lo-fi in Bb minor — drums + bass + e-piano melody, no chord pads.
+// bpm 144 | Bb minor: Bbm . Fm . Ebm . Db
 // Headless-safe: no AudioWorklet effects (.phaser/.shape avoided).
 
 samples('github:eddyflux/crate')

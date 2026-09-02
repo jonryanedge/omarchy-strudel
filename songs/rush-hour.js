@@ -2,6 +2,7 @@
 // w/ GLM-5.3-Flash
 // @version 1.0
 // Lo-fi beat — no chords, drums + bass + e-piano melody in Bb minor
+// bpm 149 | Bb minor: bass Bbm . Fm . Db . Ebm, Bbm pentatonic melody
 
 samples('github:eddyflux/crate')
 setcps(.62)
