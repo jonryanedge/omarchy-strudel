@@ -22,7 +22,7 @@ stack(
     .gain(.85)
   ,
   // MELODY — sparse e-piano motif in Bb minor pentatonic
-  note("<[bb4@2 db5@2 eb5] [~ f5@2 eb5@2] [bb4@2 ab4 ~] [db5@3 ~>]>")
+  note("<[bb4@2 db5@2 eb5] [~ f5@2 eb5@2] [bb4@2 ab4 ~] [db5@3 ~]>")
     .s("gm_epiano1:1")
     .room(.6).delay(.25)
     .lpf(sine.range(900, 2200).slow(16)).lpq(3)
