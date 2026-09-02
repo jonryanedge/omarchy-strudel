@@ -14,7 +14,7 @@ const LOG_FILE = join(STATE_DIR, 'daemon.log');
 const DEFAULT_CONFIG = {
   enabled: true,
   volume: 0.7,
-  currentSong: 'coastline.js',
+  currentSong: 'midnight-drift.js',
   autoplay: true,
   playbackSeconds: 0,
 };
