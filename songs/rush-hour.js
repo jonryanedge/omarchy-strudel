@@ -1,4 +1,5 @@
-// "rush hour" @by omarchy-strudel
+// "rush hour" @by jonryanedge
+// w/ GLM-5.3-Flash
 // @version 1.0
 // Lo-fi beat — no chords, drums + bass + e-piano melody in Bb minor
 
