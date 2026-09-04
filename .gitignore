@@ -16,6 +16,9 @@ build-output/
 *.tar.gz
 src/*.tar.gz
 
+# Compressed sample packs
+*.tgz
+
 # OS files
 .DS_Store
 Thumbs.db
